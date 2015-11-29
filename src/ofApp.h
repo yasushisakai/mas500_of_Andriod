@@ -39,4 +39,6 @@ public:
 	void move_closest(const ofPoint &pos,vector<Ball> &bs);
 	void collide_bounce(vector<Ball> &bs);
 
+	ofSoundPlayer tick;
+
 	};

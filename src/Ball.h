@@ -8,6 +8,7 @@ public:
 
     ofPoint position;
     ofPoint velocity;
+    float vgain_coeff;
     float radius;
     ofColor color;
 
@@ -17,6 +18,7 @@ public:
 
         position.set(ofRandomWidth(),ofRandomHeight(),0);
         velocity.set(0,0,0);
+        vgain_coeff = 0.5;
         radius = 60;
 
         color.r = 255;
@@ -39,12 +41,17 @@ public:
 
     void flipVelocity(){
         velocity = -velocity*0.9;
+        update();
+    }
+
+    void gainVelocity(float _vgain_coeff){
+        vgain_coeff = _vgain_coeff;
     }
 
     void update(){
-        velocity.x += ofxAccelerometer.getForce().x*0.5;
+        velocity.x += ofxAccelerometer.getForce().x*vgain_coeff;
         //??
-        velocity.y -= ofxAccelerometer.getForce().y*0.5;
+        velocity.y -= ofxAccelerometer.getForce().y*vgain_coeff;
 
         position += velocity;
 

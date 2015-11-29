@@ -7,6 +7,10 @@ void ofApp::setup(){
 
 	ofxAccelerometer.setup();
 
+	tick.loadSound("sound/tick.mp3");
+	tick.setVolume(0.5f);
+	tick.setMultiPlay(true);
+
 	ofBackground(255,211,0);
 
 	for(int i=0;i<NUM_BALL;++i){
@@ -29,9 +33,14 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+
+
+	//draw balls
+	ofFill();
 	for(vector<Ball>::iterator it = balls.begin();it != balls.end();++it){
 		(*it).draw();
 	}
+
 }
 
 //--------------------------------------------------------------
@@ -108,6 +117,7 @@ void ofApp::okPressed(){
 void ofApp::cancelPressed(){
 }
 
+
 void ofApp::move_closest(const ofPoint &pos,vector<Ball> &bs){
 
 	float min_distance = 100000000.f;
@@ -135,9 +145,8 @@ void ofApp::collide_bounce(vector<Ball> &bs){
 			temp_distance = bs[i].distanceTo(bs[j]);
 			if(temp_distance < (bs[i].radius+bs[j].radius)){
 				bs[i].flipVelocity();
-				bs[i].update();
 				bs[j].flipVelocity();
-				bs[j].update();
+				tick.play();
 			}
 		}
 	}
