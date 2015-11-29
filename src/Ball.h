@@ -18,7 +18,7 @@ public:
 
         position.set(ofRandomWidth(),ofRandomHeight(),0);
         velocity.set(0,0,0);
-        vgain_coeff = 0.5;
+        vgain_coeff = 0.8;
         radius = 120;
 
         color.r = 255;
@@ -40,8 +40,9 @@ public:
     }
 
     void flipVelocity(){
-        velocity = -velocity*0.9;
-        update();
+        velocity = -velocity*0.95;
+        position += velocity;
+
     }
 
     void gainVelocity(float _vgain_coeff){

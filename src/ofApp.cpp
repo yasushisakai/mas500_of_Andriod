@@ -153,16 +153,33 @@ void ofApp::move_closest(const ofPoint &pos,vector<Ball> &bs){
 
 void ofApp::collide_bounce(vector<Ball> &bs){
 	float temp_distance;
+	float minimum_distance;
+	float distance_ratio;
 
 	int note_num = 0;
 	for(int i =0;i<bs.size();++i){
 		for(int j=i+1;j<bs.size();++j){
+
 			temp_distance = bs[i].distanceTo(bs[j]);
-			if(temp_distance < (bs[i].radius+bs[j].radius)){
-				bs[i].flipVelocity();
-				bs[j].flipVelocity();
-				//tick.play();
-				notes[note_num].play();
+			minimum_distance = bs[i].radius + bs[j].radius;
+			distance_ratio = temp_distance / minimum_distance;
+
+			if(distance_ratio > 4 && notes[note_num].isPlaying()){
+				notes[note_num].stop();
+			}
+
+			if(distance_ratio < 4 ){
+				notes[note_num].setVolume((1.0/distance_ratio)*0.8);
+
+				if(!notes[note_num].isPlaying()){
+					notes[note_num].play();
+				}
+
+				if(distance_ratio < 1.0){
+					bs[i].flipVelocity();
+					bs[j].flipVelocity();
+				}
+
 			}
 			note_num++;
 		}
