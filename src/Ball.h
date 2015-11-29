@@ -19,7 +19,7 @@ public:
         position.set(ofRandomWidth(),ofRandomHeight(),0);
         velocity.set(0,0,0);
         vgain_coeff = 0.5;
-        radius = 60;
+        radius = 120;
 
         color.r = 255;
         color.g = 187;

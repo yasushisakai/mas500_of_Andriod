@@ -1,6 +1,6 @@
 #include "ofApp.h"
 
-#define NUM_BALL 10
+#define NUM_BALL 6
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -8,6 +8,20 @@ void ofApp::setup(){
 	ofxAccelerometer.setup();
 
 	tick.loadSound("sound/tick.mp3");
+
+	for(int i=0;i<15;i++){
+		string n = "";
+		if(i<10){
+			notes[i].loadSound("notes/0"+ofToString(i)+".mp3");
+		}else{
+			notes[i].loadSound("notes/"+ofToString(i)+".mp3");
+		}
+
+		notes[i].setVolume(0.5f);
+		notes[i].setMultiPlay(true);
+	}
+
+	//http://jetcityorange.com/musical-notes/
 	tick.setVolume(0.5f);
 	tick.setMultiPlay(true);
 
@@ -23,12 +37,12 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update() {
 
-	collide_bounce(balls);
+
 
 	for(vector<Ball>::iterator it = balls.begin();it != balls.end();++it){
 		(*it).update();
 	}
-
+	collide_bounce(balls);
 }
 
 //--------------------------------------------------------------
@@ -140,14 +154,17 @@ void ofApp::move_closest(const ofPoint &pos,vector<Ball> &bs){
 void ofApp::collide_bounce(vector<Ball> &bs){
 	float temp_distance;
 
+	int note_num = 0;
 	for(int i =0;i<bs.size();++i){
 		for(int j=i+1;j<bs.size();++j){
 			temp_distance = bs[i].distanceTo(bs[j]);
 			if(temp_distance < (bs[i].radius+bs[j].radius)){
 				bs[i].flipVelocity();
 				bs[j].flipVelocity();
-				tick.play();
+				//tick.play();
+				notes[note_num].play();
 			}
+			note_num++;
 		}
 	}
 }

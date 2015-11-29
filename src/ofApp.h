@@ -40,5 +40,6 @@ public:
 	void collide_bounce(vector<Ball> &bs);
 
 	ofSoundPlayer tick;
+	ofSoundPlayer notes[15];
 
 	};
